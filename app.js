@@ -13,6 +13,7 @@ const publicDir = path.join(__dirname, 'public/')
 
 app.set('view engine', 'ejs')
 app.set('views', viewsDir)
+app.set('trust proxy', 1)
 
 app.use(express.static(publicDir))
 app.use(bodyParser.urlencoded({ extended: false }));
