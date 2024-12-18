@@ -251,3 +251,33 @@
   new PureCounter();
 
 })()
+
+
+$('#contactForm').submit(function (e) {
+  e.preventDefault(); 
+
+  $('.error-message').hide();
+  $('.sent-message').hide();
+  $('.loading').show();
+
+  const submitButton = $('.send-button-box');
+  submitButton.hide()
+
+  var formData = $(this).serialize();
+
+  $.ajax({
+    type: 'POST',
+    url: $(this).attr('action'),
+    data: formData,
+    success: function (response) {
+      submitButton.show()
+      $('.loading').hide();
+      $('.sent-message').show();
+    },
+    error: function (xhr, status, error) {
+      $('.loading').hide();
+      $('.error-message').text('There was an error sending your message. Please try again later.').show();
+      submitButton.show()
+    }
+  });
+});
