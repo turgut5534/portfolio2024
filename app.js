@@ -37,27 +37,27 @@ app.post('/contact', async(req,res) => {
     
     try{
 
-        console.log('Sending')
-        const { name, email, subject, message } = req.body;
+        // console.log('Sending')
+        // const { name, email, subject, message } = req.body;
 
-        const mailOptions = {
-            from: `info@turgutsalgin.com`,
-            to: 'turgutsalgin3455@gmail.com',
-            subject: subject,
-            html: `
-            <h3>Contact Form Submission</h3>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Subject:</strong> ${subject}</p>
-            <p><strong>Message:</strong> ${message}</p>
-            `,
-        };
+        // const mailOptions = {
+        //     from: `info@turgutsalgin.com`,
+        //     to: 'turgutsalgin3455@gmail.com',
+        //     subject: subject,
+        //     html: `
+        //     <h3>Contact Form Submission</h3>
+        //     <p><strong>Name:</strong> ${name}</p>
+        //     <p><strong>Email:</strong> ${email}</p>
+        //     <p><strong>Subject:</strong> ${subject}</p>
+        //     <p><strong>Message:</strong> ${message}</p>
+        //     `,
+        // };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error)
-              return res.status(500).send('Error occurred while sending the message.');
-            }
+        // transporter.sendMail(mailOptions, (error, info) => {
+        //     if (error) {
+        //         console.log(error)
+        //       return res.status(500).send('Error occurred while sending the message.');
+        //     }
             res.status(200).send('Your message has been sent. Thank you!');
         });
 
