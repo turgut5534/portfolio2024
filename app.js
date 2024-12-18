@@ -5,8 +5,12 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const validator = require('validator')
 const rateLimit = require('express-rate-limit');
+const visitorInfoMiddleware = require('./src/middlewares/collectdata');
+const requestIp = require('request-ip');
 
 const app = express()
+
+
 
 const viewsDir = path.join(__dirname, '/src/views')
 const publicDir = path.join(__dirname, 'public/')
@@ -21,6 +25,9 @@ app.use(bodyParser.json());
 
 const port = process.env.PORT || 8000
 
+app.use(requestIp.mw());
+app.use(visitorInfoMiddleware);
+
 app.get('/' , (req,res) => {
     res.render('index')
 
@@ -33,7 +40,7 @@ const emailLimiter = rateLimit({
     headers: true, // Send rate limit info in headers
 });
 
-app.use('/contact', emailLimiter);
+
 
 const transporter = nodemailer.createTransport({
     host: 'mail.privateemail.com', // Namecheap's SMTP host
@@ -44,6 +51,8 @@ const transporter = nodemailer.createTransport({
       pass: process.env.MAIL_PASSWORD, // Use your password securely
     },
   });
+
+app.use('/contact', emailLimiter);
 
 app.post('/contact', async(req,res) => {
     
