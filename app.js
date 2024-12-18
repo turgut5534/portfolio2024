@@ -58,8 +58,8 @@ app.post('/contact', async(req,res) => {
         //         console.log(error)
         //       return res.status(500).send('Error occurred while sending the message.');
         //     }
-            res.status(200).send('Your message has been sent. Thank you!');
-        });
+        //     res.status(200).send('Your message has been sent. Thank you!');
+        // });
 
     } catch(e) {
         console.log(e)
