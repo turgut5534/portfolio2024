@@ -27,8 +27,8 @@ app.get('/' , (req,res) => {
 
 const emailLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 5, // Limit each IP to 100 requests per windowMs
-    message: 'Too many requests! Please try again after 15 minutes.',
+    max: 2, // Limit each IP to 100 requests per windowMs
+    message: 'Too many requests! Please try again later.',
     headers: true, // Send rate limit info in headers
 });
 
