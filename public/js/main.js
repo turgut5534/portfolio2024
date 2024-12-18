@@ -276,8 +276,11 @@ $('#contactForm').submit(function (e) {
     },
     error: function (xhr, status, error) {
       $('.loading').hide();
-      $('.error-message').text('There was an error sending your message. Please try again later.').show();
-      submitButton.show()
-    }
+      // Check if there's an error message from the backend
+      var errorMessage = xhr.responseText || 'There was an error sending your message. Please try again later.';
+      $('.error-message').text(errorMessage).show();
+      submitButton.show();
+  }
+  
   });
 });

@@ -3,6 +3,7 @@ const path = require('path')
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
 require('dotenv').config();
+const validator = require('validator')
 
 const app = express()
 
@@ -37,21 +38,32 @@ app.post('/contact', async(req,res) => {
     
     try{
 
-        // console.log('Sending')
-        // const { name, email, subject, message } = req.body;
+        console.log('Sending')
+        const { name, email, subject, message } = req.body;
 
-        // const mailOptions = {
-        //     from: `info@turgutsalgin.com`,
-        //     to: 'turgutsalgin3455@gmail.com',
-        //     subject: subject,
-        //     html: `
-        //     <h3>Contact Form Submission</h3>
-        //     <p><strong>Name:</strong> ${name}</p>
-        //     <p><strong>Email:</strong> ${email}</p>
-        //     <p><strong>Subject:</strong> ${subject}</p>
-        //     <p><strong>Message:</strong> ${message}</p>
-        //     `,
-        // };
+        if(!validator.isEmail(email)) {
+            return res.status(400).send('Please enter a valid email address.');
+        }
+
+        if (validator.isEmpty(validator.trim(name)) || 
+            validator.isEmpty(validator.trim(email)) || 
+            validator.isEmpty(validator.trim(subject)) || 
+            validator.isEmpty(validator.trim(message))) {
+            return res.status(400).send('All fields are required and cannot be just spaces.');
+        }
+
+        const mailOptions = {
+            from: `info@turgutsalgin.com`,
+            to: 'turgutsalgin3455@gmail.com',
+            subject: subject,
+            html: `
+            <h3>Contact Form Submission</h3>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Subject:</strong> ${subject}</p>
+            <p><strong>Message:</strong> ${message}</p>
+            `,
+        };
 
         // transporter.sendMail(mailOptions, (error, info) => {
         //     if (error) {
@@ -61,6 +73,7 @@ app.post('/contact', async(req,res) => {
         //     res.status(200).send('Your message has been sent. Thank you!');
         // });
 
+        res.status(200).send('Your message has been sent. Thank you!');
     } catch(e) {
         console.log(e)
     }
