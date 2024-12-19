@@ -273,6 +273,8 @@ $('#contactForm').submit(function (e) {
       submitButton.show()
       $('.loading').hide();
       $('.sent-message').show();
+
+      $('#contactForm')[0].reset();
     },
     error: function (xhr, status, error) {
       $('.loading').hide();
