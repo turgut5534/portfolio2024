@@ -415,6 +415,7 @@ various technologies and contribute to impactful software development.
   </section><!-- End Portfolio Section -->
 
   <!-- ======= Contact Section ======= -->
+  
   <section id="contact" class="contact">
     <div class="container">
 
@@ -454,6 +455,8 @@ various technologies and contribute to impactful software development.
 
       </div>
 
+      <% if(setting.mails_enabled) {%>
+
       <form action="/contact" method="POST" role="form" class="php-email-form mt-4" id="contactForm">
         <div class="row">
           <div class="col-md-6 form-group">
@@ -477,6 +480,15 @@ various technologies and contribute to impactful software development.
         <div class="text-center send-button-box"><button type="submit">Send Message</button></div>
       </form>
 
+      <%} else {%>
+
+        <div style="text-align: center; margin-top: 5rem;">
+          <p>The contact form is temporarily down. It will be available as soon as possible!</p>  
+        </div>
+        
+    
+      <%}%>  
+
     </div>
   </section><!-- End Contact Section -->
 
@@ -489,7 +501,6 @@ various technologies and contribute to impactful software development.
   <script src="vendor/waypoints/noframework.waypoints.js"></script>
   <!-- Template Main JS File -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
   <script>
     

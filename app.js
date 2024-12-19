@@ -9,7 +9,8 @@ const visitorInfoMiddleware = require('./src/middlewares/collectdata');
 const requestIp = require('request-ip');
 const adminRouter = require('./src/routers/adminRouter')
 const cookieParser = require('cookie-parser');
-const maintance = require('./src/middlewares/maintanence')
+const maintance = require('./src/middlewares/maintanence');
+const Setting = require('./src/models/Settings');
 
 const app = express()
 
@@ -34,8 +35,14 @@ app.use(maintance)
 app.use(requestIp.mw());
 app.use(visitorInfoMiddleware);
 
-app.get('/' , (req,res) => {
-    res.render('index')
+app.get('/' ,  async (req,res) => {
+    try{
+        const setting= await Setting.findOne()
+        res.render('index', {setting})
+    } catch{
+        console.log(e)
+    }
+   
 
 })
 
