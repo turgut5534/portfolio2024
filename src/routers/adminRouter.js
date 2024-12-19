@@ -104,4 +104,68 @@ router.get('/dashboard', auth, async(req,res) => {
 
 })
 
+router.post('/settings/maintanence', auth, async(req,res) => {
+
+    try{
+
+        const maintanance = req.body.maintananceName
+        var message;
+
+        const settings = await Setting.findOne()
+
+        console.log(maintanance)
+
+        if(maintanance) {
+            settings.maintanence_enabled = 1
+            message= 'Disable Maintanence'
+        } else {
+            settings.maintanence_enabled = 0
+            message= 'Enable Maintanence'
+        }
+
+        await settings.save()
+
+        res.status(200).send(message)
+        
+    } catch(e) {
+        console.log(e)
+        res.status(400).json( {
+            message: 'An error occurred'
+        })
+    }
+
+})
+
+router.post('/settings/mails', auth, async(req,res) => {
+
+    try{
+
+        const mails = req.body.mailSwitch
+        var message;
+
+        const settings = await Setting.findOne()
+
+        console.log(mails)
+
+        if(mails) {
+            settings.mails_enabled = 1
+            message= 'Disable Mails'
+        } else {
+            settings.mails_enabled = 0
+            message= 'Allow Mails'
+        }
+
+        await settings.save()
+
+        res.status(200).send(message)
+        
+    } catch(e) {
+        console.log(e)
+        res.status(400).json( {
+            message: 'An error occurred'
+        })
+    }
+
+})
+
 module.exports = router
