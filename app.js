@@ -29,7 +29,7 @@ app.use(cookieParser());
 
 const port = process.env.PORT || 8000
 
-app.use('/admin', adminRouter)
+app.use('/space', adminRouter)
 
 app.use(maintance)
 app.use(requestIp.mw());

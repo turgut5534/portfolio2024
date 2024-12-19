@@ -9,7 +9,7 @@ $('#loginForm').on('submit', function(e){
         type: 'POST',
         data: $(this).serialize(),
         success: function() {
-            alert('asd')
+            window.location.href = '/space/dashboard'
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
@@ -22,7 +22,7 @@ $('#loginForm').on('submit', function(e){
 $('.maintanance-switch').on('change', function() {
     
     $.ajax({
-        url: '/admin/settings/maintanence',
+        url: '/space/settings/maintanence',
         type: 'POST',
         data: $(this).serialize(),
         success: function(response) {
@@ -39,7 +39,7 @@ $('.maintanance-switch').on('change', function() {
 $('.mail-switch').on('change', function() {
     
     $.ajax({
-        url: '/admin/settings/mails',
+        url: '/space/settings/mails',
         type: 'POST',
         data: $(this).serialize(),
         success: function(response) {
