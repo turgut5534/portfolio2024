@@ -7,24 +7,30 @@ const validator = require('validator')
 const rateLimit = require('express-rate-limit');
 const visitorInfoMiddleware = require('./src/middlewares/collectdata');
 const requestIp = require('request-ip');
+const adminRouter = require('./src/routers/adminRouter')
+const cookieParser = require('cookie-parser');
+const maintance = require('./src/middlewares/maintanence')
 
 const app = express()
-
-
 
 const viewsDir = path.join(__dirname, '/src/views')
 const publicDir = path.join(__dirname, 'public/')
 
 app.set('view engine', 'ejs')
 app.set('views', viewsDir)
+// app.set('views', adminViewsDir)
 app.set('trust proxy', 1)
 
 app.use(express.static(publicDir))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const port = process.env.PORT || 8000
 
+app.use('/admin', adminRouter)
+
+app.use(maintance)
 app.use(requestIp.mw());
 app.use(visitorInfoMiddleware);
 
