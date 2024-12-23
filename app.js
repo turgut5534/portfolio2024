@@ -48,7 +48,7 @@ app.get('/' ,  async (req,res) => {
 
 const emailLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 2, // Limit each IP to 100 requests per windowMs
+    max: 20, // Limit each IP to 100 requests per windowMs
     message: 'Too many requests! Please try again later.',
     headers: true, // Send rate limit info in headers
 });
@@ -72,7 +72,11 @@ app.post('/contact', async(req,res) => {
     try{
 
         console.log('Sending')
-        const { name, email, subject, message } = req.body;
+        const { name, email, subject, message, "g-recaptcha-response": token} = req.body;
+
+        if (!token) {
+            return res.status(400).send("Please complete the CAPTCHA.");
+        }
 
         if(!validator.isEmail(email)) {
             return res.status(400).send('Please enter a valid email address.');

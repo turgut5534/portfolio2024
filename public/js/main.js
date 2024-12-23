@@ -254,35 +254,46 @@
 
 
 $('#contactForm').submit(function (e) {
-  e.preventDefault(); 
+  e.preventDefault();
 
   $('.error-message').hide();
   $('.sent-message').hide();
   $('.loading').show();
 
   const submitButton = $('.send-button-box');
-  submitButton.hide()
+  submitButton.hide();
 
-  var formData = $(this).serialize();
+  // Get the reCAPTCHA token
+  const recaptchaResponse = grecaptcha.getResponse();
+
+  if (!recaptchaResponse) {
+    $('.loading').hide();
+    $('.error-message').text('Please complete the CAPTCHA.').show();
+    submitButton.show();
+    return;
+  }
+
+  // Serialize form data and append reCAPTCHA token
+  var formData = $(this).serialize() + '&g-recaptcha-response=' + recaptchaResponse;
 
   $.ajax({
     type: 'POST',
     url: $(this).attr('action'),
     data: formData,
     success: function (response) {
-      submitButton.show()
+      submitButton.show();
       $('.loading').hide();
       $('.sent-message').show();
 
       $('#contactForm')[0].reset();
+      // Reset reCAPTCHA
+      grecaptcha.reset();
     },
     error: function (xhr, status, error) {
       $('.loading').hide();
-      // Check if there's an error message from the backend
       var errorMessage = xhr.responseText || 'There was an error sending your message. Please try again later.';
       $('.error-message').text(errorMessage).show();
       submitButton.show();
-  }
-  
+    }
   });
 });
